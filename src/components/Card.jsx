@@ -1,8 +1,11 @@
 const Card =(props) =>{
+    const handelComplete=()=>{
+        props.onDeleteTask(props.task.id)
+    };
     return (
         <div className='card'>
             <p>{props.task.text}</p>
-            <button>Complete</button>
+            <button onClick={handelComplete}>Complete</button>
           </div>
     )
 }

@@ -1,43 +1,26 @@
 import './App.css'
-import Input from './components/Input'
-import Card from './components/Card'
+import Task from './components/task'
+import { BrowserRouter,Routes,Route } from 'react-router-dom'
+import About from './components/about'
+import Navbar from './components/navbar'
 
 function App() {
-  const initial_task=[
-    {
-      id:10,
-      text:"Task 1"
-    },
-    {
-      id:11,
-      text:"Task 2"
-    },
-    {
-      
-      id:12,
-      text:"Task 3"
-    }
-  ];
-  
     return (
       <>
+      <BrowserRouter>
         <div className='App'>
          <header>
           <h1>To-Do List</h1>
          </header>
-  
+         <Navbar></Navbar>
          <main>
-          <div id="tasks">
-          <Input></Input>
-          {
-            initial_task.map((task)=>(
-            <Card task={task}></Card>
-            ))
-          }
-          </div>
+          <Routes>
+            <Route path="/" element={<Task></Task>}></Route>
+            <Route path="/about" element={<About></About>}></Route>
+          </Routes>
          </main>
-        </div>
-        
+        </div>  
+      </BrowserRouter>     
       </>
     )
   }
