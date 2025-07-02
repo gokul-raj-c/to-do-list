@@ -1,35 +1,57 @@
-import { useState } from "react";
+import { useEffect,useState } from "react";
 import Card from "./Card";
 import Input from "./Input";
 const Task=()=>{
-    const initial_task=[
-        {
-            id:10,
-            text:"This Is Task 1"
-        },
-        {
-            id:11,
-            text:"This Is Task 2"   
-        },
-        {
-            id:12,
-            text:"This Is Task 3"
-        }
-    ];
+    const initial_task=[];
+
     const[tasks,setTasks]=useState(initial_task);
-    const addTaskHandler=(newTask)=>{
+    const addTaskHandler=async (newTask)=>{
         const newTaskObj={
-            id:Math.random(),
-            text:newTask
+            task_id:Math.random(),
+            task_name:newTask
         };
-        setTasks(prev=>[
-            ...prev,
-            newTaskObj
-        ])   
+        const response=await fetch("http://localhost:8010/create",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(newTaskObj),
+        })
+        if(response.status==201)
+        {
+            getTasks();
+            alert("New Task Added Successfully!");
+        }
+        else{
+            alert("Failed To Add New Task!")
+        }
     };
-    const deleteTaskHandler=(taskId)=>{
-        setTasks(prev=>prev.filter(item=>item.id !== taskId))
+
+    const deleteTaskHandler=async (taskId)=>{
+        const response=await fetch("http://localhost:8010/"+taskId,{
+            method:"DELETE"
+        })
+        if(response.status==200)
+        {
+            getTasks();
+            alert("Task Deleted Successfully!");
+        }
+        else
+        {
+            alert("Failed To Delete Task!")
+        }
     };
+
+    const getTasks=async ()=>{
+        const response=await fetch("http://localhost:8010/");
+            const taskList= await response.json();
+            console.log(taskList);
+            setTasks(taskList)
+    }
+
+    useEffect(()=>{
+        getTasks()
+    },[]);
 
     return(
         <div id="tasks">
