@@ -10,7 +10,7 @@ const Task=()=>{
             task_id:Math.random(),
             task_name:newTask
         };
-        const response=await fetch("http://localhost:8010/create",{
+        const response=await fetch("https://to-do-backend-grtg.onrender.com/create",{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -28,7 +28,7 @@ const Task=()=>{
     };
 
     const deleteTaskHandler=async (taskId)=>{
-        const response=await fetch("http://localhost:8010/"+taskId,{
+        const response=await fetch("https://to-do-backend-grtg.onrender.com/"+taskId,{
             method:"DELETE"
         })
         if(response.status==200)
@@ -43,7 +43,7 @@ const Task=()=>{
     };
 
     const getTasks=async ()=>{
-        const response=await fetch("http://localhost:8010/");
+        const response=await fetch("https://to-do-backend-grtg.onrender.com/");
             const taskList= await response.json();
             console.log(taskList);
             setTasks(taskList)
